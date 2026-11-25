@@ -5,7 +5,14 @@ const rawBase =
 const cleanBase = rawBase.replace(/\/+$/, '');
 
 const api = axios.create({
-  baseURL: cleanBase.endsWith('/api') ? cleanBase : `${cleanBase}/api`, });  // Attach the JWT from localStorage to every request, if present api.interceptors.request.use((config) => { const token = localStorage.getItem('hms_token'); if (token) { config.headers.Authorization = `Bearer ${token}`;
+  baseURL: cleanBase.endsWith('/api') ? cleanBase : `${cleanBase}/api`,
+});
+
+// Attach the JWT from localStorage to every request, if present
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('hms_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
